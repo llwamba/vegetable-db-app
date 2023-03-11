@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='main.css') }}" />
+    <title>{{ title }}</title>
+  </head>
+  <body>
+    {% with messages = get_flashed_messages() %}
+      {% if messages %}
+        <ul>
+          {% for message in messages %}
+            <p>{{ message }}</p>
+          {% endfor %}
+        </ul>
+      {% endif %}
+    {% endwith %}
+    <h1>Add Vegetable</h1>
+    <form method="POST">
+      <input type="text" name="name" placeholder="Vegetable Name" value="{{ name }}"/>
+      <input type="number" name="quantity" placeholder="Quantity" value="{{ quantity }}"/>
+      <button type="submit">Add</button>
+    </form>
+    <hr>
+    <table>
+      <thead>
+        <tr>
+          <th>Quantity</th>
+          <th>Vegetable Name</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for quantity, name in vegetables %}
+          <tr>
+            <td>{{ quantity }}</td>
+            <td>{{ name }}</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    <div class="footer">
+      <p>&copy; 2023, Lionel Lwamba</p>
+    </div>
+  </body>
+</html>
