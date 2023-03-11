@@ -4,7 +4,7 @@ This app is built using flask on the backend, sqlite to store database, and html
 
 User can enter the vegetable name and quantity, and the quantity and name will show up on the front-end when added, and data will be stored on the database.
 
-[http://lionelwamba.pythonanywhere.com/]()
+[CLIK HERE TO VIEW DEMO](http://lionelwamba.pythonanywhere.com/)
 
 # DEVELOPMENT CYCLE:
 
