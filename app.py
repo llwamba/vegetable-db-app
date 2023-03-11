@@ -87,7 +87,7 @@ def index():
         vegetables = v.get_all()
     return render_template(
         'base.html',
-        title="DB Example",
+        title="Vegetable Database App",
         vegetables=vegetables,
         name=name,
         quantity=quantity,
