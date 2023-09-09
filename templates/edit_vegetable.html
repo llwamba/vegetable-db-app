@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8" />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="{{ url_for('static', filename='main.css') }}"
+    />
+    <title>Edit Vegetable</title>
+  </head>
+  <body>
+    <h1>Edit Vegetable</h1>
+    <form method="POST">
+      <input
+        type="text"
+        name="name"
+        placeholder="Vegetable Name"
+        value="{{ vegetable[2] }}"
+        required
+      />
+      <input
+        type="number"
+        name="quantity"
+        placeholder="Quantity"
+        value="{{ vegetable[1] }}"
+        required
+      />
+      <input
+        type="number"
+        name="price"
+        placeholder="Price ($)"
+        value="{{ vegetable[3] }}"
+        step="0.01"
+        required
+      />
+      <button type="submit">Save</button>
+    </form>
+    <a href="{{ url_for('index') }}">Back to Home</a>
+    <div class="footer">
+      <p>&copy; 2023, Lionel Lwamba</p>
+    </div>
+  </body>
+</html>

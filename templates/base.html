@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8" />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="{{ url_for('static', filename='main.css') }}"
+    />
+    <title>{{ title }}</title>
+  </head>
+  <body>
+    <header>
+      <div class="navbar">
+        {% if session.logged_in %}
+        <a href="{{ url_for('query') }}" class="login-button">Query</a>
+        <a href="{{ url_for('add_vegetable') }}" class="login-button"
+          >Add Vegetable</a
+        >
+        <a href="{{ url_for('logout') }}" class="logout-button">Logout</a>
+        {% else %}
+        <a href="{{ url_for('login') }}" class="login-button">Login</a>
+        <a href="{{ url_for('register') }}" class="login-button">Register</a>
+        {% endif %}
+      </div>
+    </header>
+
+    <h1 class="center-text">Welcome to the Vegetable Management System</h1>
+    <div class="center-text description">
+      <p>
+        <span class="bullet-point">•</span> This is a simple system for managing
+        vegetables database system designed and developed by
+        <strong>Lionel Lwamba</strong>. You can use this app to easily keep
+        track of your vegetable inventory.
+      </p>
+      <p>
+        <span class="bullet-point">•</span>
+        <strong>Add Vegetables:</strong> Click the "Add Vegetable" button to add
+        a new vegetable to your inventory. Provide the vegetable's name,
+        quantity, and price per unit. The app will automatically calculate the
+        total value of the vegetable. Click the "Add" button to save the
+        vegetable to your inventory.
+      </p>
+      <p>
+        <span class="bullet-point">•</span>
+        <strong>Query Vegetables:</strong> Use the "Query" button to search for
+        specific vegetables by their name. Simply enter the name of the
+        vegetable you're looking for and click "Query." The app will display a
+        list of matching vegetables along with their quantity and price.
+      </p>
+      <p>
+        <span class="bullet-point">•</span> <strong>Edit Vegetables:</strong> If
+        you need to update the information of a vegetable, click the "Edit" link
+        next to the vegetable in the inventory table. You can then modify the
+        vegetable's name, quantity, and price and click "Save" to update it.
+      </p>
+      <p>
+        <span class="bullet-point">•</span> <strong>Total Value:</strong> The
+        app also provides a total sum of the values of all vegetables in your
+        inventory. This can help you keep track of the total worth of your
+        vegetable stock.
+      </p>
+      <p>
+        <span class="bullet-point">•</span> Start managing your vegetables
+        efficiently with this easy-to-use app!
+      </p>
+    </div>
+
+    <div class="footer">
+      <p>&copy; 2023, Lionel Lwamba</p>
+    </div>
+  </body>
+</html>

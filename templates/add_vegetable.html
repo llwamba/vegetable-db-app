@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8" />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="{{ url_for('static', filename='main.css') }}"
+    />
+    <title>{{ title }}</title>
+    <script>
+      // Check if the page was refreshed and clear the message
+      if (performance.navigation.type === 1) {
+        sessionStorage.removeItem("flashMessage");
+      }
+
+      // Function to display the flash message
+      function displayFlashMessage() {
+        const flashMessage = sessionStorage.getItem("flashMessage");
+        if (flashMessage) {
+          const flashMessagesDiv = document.querySelector(".flash-messages");
+          flashMessagesDiv.innerHTML = `<li class="flash-message">${flashMessage}</li>`;
+        }
+      }
+
+      // Execute the function when the page loads
+      window.onload = displayFlashMessage;
+
+      // Function to check form submission
+      function checkForm() {
+        const nameInput = document.querySelector('input[name="name"]');
+        const quantityInput = document.querySelector('input[name="quantity"]');
+        const flashMessage =
+          "⚠️You must give a name and a quantity for the vegetable!";
+
+        if (!nameInput.value || !quantityInput.value) {
+          // Show flash message
+          sessionStorage.setItem("flashMessage", flashMessage);
+        }
+      }
+    </script>
+  </head>
+  <body>
+    {% with messages = get_flashed_messages(with_categories=true) %} {% if
+    messages %} {% for category, message in messages %}
+    <div class="flash-messages">
+      {% if category == 'error' %}
+      <li class="flash-message">{{ message }}</li>
+      {% endif %}
+    </div>
+    {% endfor %} {% endif %} {% endwith %}
+    <h1>Add Vegetable</h1>
+    <form method="POST" onsubmit="checkForm()">
+      <input
+        type="text"
+        name="name"
+        placeholder="Vegetable Name"
+        value="{{ name }}"
+        required
+      />
+      <input
+        type="number"
+        name="quantity"
+        placeholder="Quantity"
+        value="{{ quantity }}"
+        required
+      />
+      <input
+        type="number"
+        name="price"
+        placeholder="Price ($)"
+        value="{{ price }}"
+        step="0.01"
+        required
+      />
+      <button type="submit">Add</button>
+    </form>
+    <hr />
+    <table>
+      <thead>
+        <tr>
+          <th>Vegetable Name</th>
+          <th>Quantity</th>
+          <th>Price ($)</th>
+          <th>Total Value ($)</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for vegetable in vegetables %}
+        <tr>
+          <td>{{ vegetable.name }}</td>
+          <td>{{ vegetable.quantity }}</td>
+          <td>{{ vegetable.price }}</td>
+          <td>
+            {% if vegetable.total_value is not none %}{{ vegetable.total_value
+            }}{% endif %}
+          </td>
+          <td>
+            <a href="{{ url_for('edit_vegetable', vegetable_id=vegetable.id) }}"
+              >Edit</a
+            >
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+
+    <a href="{{ url_for('index') }}">Back to Home</a>
+
+    <div class="footer">
+      <p>&copy; 2023, Lionel Lwamba</p>
+    </div>
+  </body>
+</html>
