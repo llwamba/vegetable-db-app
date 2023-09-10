@@ -190,3 +190,8 @@ p.no-results {
 .login-button:hover {
   background-color: #1976d2;
 }
+
+.delete-link {
+  color: red;
+  margin-left: 10px;
+}

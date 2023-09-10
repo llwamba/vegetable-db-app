@@ -1,3 +1,4 @@
+import os
 from flask import Flask, flash, render_template, request, redirect, url_for, session
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField
@@ -196,6 +197,21 @@ def edit_vegetable(vegetable_id):
             return redirect(url_for('index'))
 
     return render_template('edit_vegetable.html', title="Edit Vegetable", vegetable=vegetable)
+
+
+@app.route('/delete/<int:vegetable_id>', methods=['GET', 'POST'])
+def delete_vegetable(vegetable_id):
+    vegetable = Vegetable.query.get_or_404(vegetable_id)
+
+    if request.method == 'POST':
+        db.session.delete(vegetable)
+        db.session.commit()
+        flash(
+            f'Vegetable {vegetable.name} has been deleted successfully!', 'success')
+        # Redirect to add_vegetable page after deleting
+        return redirect(url_for('add_vegetable'))
+
+    return render_template('delete_vegetable.html', title="Delete Vegetable", vegetable=vegetable)
 
 
 @app.route('/register', methods=['GET', 'POST'])
