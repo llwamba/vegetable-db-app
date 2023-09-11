@@ -11,7 +11,7 @@
   </head>
   <body>
     <h1>Delete Vegetable</h1>
-    <p>Are you sure you want to delete {{ escape(vegetable.name) }}?</p>
+    <p>Are you sure you want to delete {{ vegetable.name |safe }}?</p>
     <form method="POST">
       <button type="submit" class="btn btn-danger">Delete</button>
       <a href="{{ url_for('add_vegetable') }}" class="btn btn-secondary"
