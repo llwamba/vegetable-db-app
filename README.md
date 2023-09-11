@@ -1,9 +1,9 @@
 # Vegetable Database App
 
-[CLIK HERE TO VIEW DEMO]([https://vegetable-db-app-by-lionel-lwamba.onrender.com/]) or click on this link: https://vegetable-db-app-by-lionel-lwamba.onrender.com
+[CLIK HERE TO VIEW DEMO](https://vegetable-db-app-by-lionel-lwamba.onrender.com) or click on this link: https://vegetable-db-app-by-lionel-lwamba.onrender.com
 
  # Overview
-The Vegetable Database App is a simple yet powerful web application for managing your vegetable inventory. Developed by Lionel Lwamba, this user-friendly tool allows you to effortlessly keep track of your vegetables, their quantities, and prices.
+The Vegetable Database App is a simple yet powerful web application for managing your vegetable inventory. Deisgned and developed by Lionel Lwamba, this user-friendly tool allows you to effortlessly keep track of your vegetables, their quantities, and prices.
 
 # Features
 * # Add Vegetables:
@@ -23,5 +23,3 @@ Total Value: The app provides a total sum of the values of all vegetables in you
 * Edit Vegetables: To edit a vegetable's information, click "Edit" next to the vegetable in the inventory table. Modify the details and click "Save" to update.
 * Total Value: The app displays the total value of all your vegetables in the inventory, providing an overview of your stock's worth.
 * Logout: Click "Logout" to securely log out of your account.
-
-# "Developed and Designed by Lionel Lwamba 🚀"
