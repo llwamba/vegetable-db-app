@@ -19,7 +19,9 @@
         const flashMessage = sessionStorage.getItem("flashMessage");
         if (flashMessage) {
           const flashMessagesDiv = document.querySelector(".flash-messages");
-          flashMessagesDiv.innerHTML = `<li class="flash-message">${flashMessage}</li>`;
+          flashMessagesDiv.innerHTML = `<li class="flash-message">${escape(
+            flashMessage
+          )}</li>`;
         }
       }
 
@@ -45,7 +47,7 @@
     messages %} {% for category, message in messages %}
     <div class="flash-messages">
       {% if category == 'error' %}
-      <li class="flash-message">{{ message }}</li>
+      <li class="flash-message">{{ escape(message) }}</li>
       {% endif %}
     </div>
     {% endfor %} {% endif %} {% endwith %}
@@ -89,9 +91,9 @@
       <tbody>
         {% for vegetable in vegetables %}
         <tr>
-          <td>{{ vegetable.name }}</td>
-          <td>{{ vegetable.quantity }}</td>
-          <td>{{ vegetable.price }}</td>
+          <td>{{ escape(vegetable.name) }}</td>
+          <td>{{ escape(vegetable.quantity) }}</td>
+          <td>{{ escape(vegetable.price) }}</td>
           <td>
             {% if vegetable.total_value is not none %}{{
             '%0.3f'|format(vegetable.total_value) }}{% endif %}

@@ -7,12 +7,14 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from dotenv import load_dotenv
+from markupsafe import escape
+
 
 load_dotenv()
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = os.getenv('SECRET_KEY')
-
+app.debug = True
 
 database_uri = os.getenv('DATABASE_URL')
 if not database_uri:
@@ -67,38 +69,6 @@ def init_db():
         click.echo("Database Initialized")
 
 
-# def db_setup():
-#     """
-#     Set up the database if needed.
-
-#     This function is responsible for creating the necessary tables if they don't exist.
-#     """
-#     app.logger.debug("Setting up db...")
-#     db.create_all()
-#     app.logger.debug("Setting up db [Done]")
-
-
-# def set_database_uri():
-#     if 'username' in session:
-#         user = User.query.filter_by(name=session['username']).first()
-#         if user:
-#             user_db_uri = f'sqlite:///user_{user.id}_db.sqlite3'
-#             app.config['SQLALCHEMY_DATABASE_URI'] = user_db_uri
-
-
-# def configure_db_uri(user_id):
-#     """
-#     Configure the database URI based on the user's ID.
-
-#     Args:
-#         user_id (int): The ID of the logged-in user.
-
-#     Returns:
-#         str: The configured database URI.
-#     """
-#     return f'sqlite:///user_{user_id}_db.sqlite3'
-
-
 @app.before_request
 def before_request():
     if 'logged_in' in session:
@@ -106,8 +76,8 @@ def before_request():
 
 
 def valid_login(username, password):
-    user = User.query.filter_by(name=username).first()
-    if user and check_password_hash(user.password, password):
+    user = User.query.filter_by(name=escape(username)).first()
+    if user and check_password_hash(escape(password), password):
         return True
     return False
 
@@ -144,10 +114,11 @@ def add_vegetable():
     if valid:
         total_value = quantity * price
         new_vegetable = Vegetable(
-            name=name, quantity=quantity, price=price, total_value=total_value)
+            name=escape(name), quantity=quantity, price=price, total_value=total_value)
         db.session.add(new_vegetable)
         db.session.commit()
-        flash(f'Vegetable {name} was added with a quantity of {quantity}')
+        flash(
+            f'Vegetable {escape(name)} was added with a quantity of {quantity}')
 
     vegetables = Vegetable.query.all()
     total_sum = db.session.query(db.func.sum(Vegetable.total_value)).scalar()
@@ -173,7 +144,7 @@ def query():
 
         if query_str:
             results = Vegetable.query.filter(
-                Vegetable.name.ilike(f'%{query_str}%')).all()
+                Vegetable.name.like(f'%{escape(query_str)}%')).all()
 
     return render_template(
         'query.html',
@@ -205,7 +176,7 @@ def edit_vegetable(vegetable_id):
                 valid = False
 
         if valid:
-            vegetable.name = name
+            vegetable.name = escape(name)
             vegetable.quantity = quantity
             vegetable.price = price
             vegetable.total_value = quantity * price
@@ -224,7 +195,7 @@ def delete_vegetable(vegetable_id):
         db.session.delete(vegetable)
         db.session.commit()
         flash(
-            f'Vegetable {vegetable.name} has been deleted successfully!', 'success')
+            f'Vegetable {escape(vegetable.name)} has been deleted successfully!', 'success')
         # Redirect to add_vegetable page after deleting
         return redirect(url_for('add_vegetable'))
 
@@ -239,12 +210,13 @@ def register():
         username = form.username.data
         password = form.password.data
 
-        existing_user = User.query.filter_by(name=username).first()
+        existing_user = User.query.filter_by(name=escape(username)).first()
         if existing_user:
             flash('Username already exists. Please choose a different one.', 'danger')
         else:
-            hashed_password = generate_password_hash(password, method='sha256')
-            new_user = User(name=username, password=hashed_password)
+            hashed_password = generate_password_hash(
+                escape(password), method='sha256')
+            new_user = User(name=escape(username), password=hashed_password)
             db.session.add(new_user)
             db.session.commit()
             flash('Your account has been created! You can now log in.', 'success')
@@ -262,7 +234,7 @@ def login():
         password = form.password.data
 
         app.logger.debug(
-            f'Attempting login for username: {username}, password: {password}')
+            f'Attempting login for username: {escape(username)}, password: {escape(password)}')
 
         if valid_login(username, password):
             session['logged_in'] = True
