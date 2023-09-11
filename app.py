@@ -5,14 +5,26 @@ from wtforms import StringField, PasswordField
 from wtforms.validators import DataRequired, EqualTo, Length
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_sqlalchemy import SQLAlchemy
+from flask_migrate import Migrate
 from dotenv import load_dotenv
+
 load_dotenv()
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = os.getenv('SECRET_KEY')
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///db.sqlite3'
+# app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///db.sqlite3'
+
+database_uri = os.getenv('DATABASE_URL')
+if not database_uri:
+    raise EnvironmentError("DATABASE_URL environment variable is not set")
+
+print(f"DATABASE_URL: {database_uri}")
+
+app.config['SQLALCHEMY_DATABASE_URI'] = database_uri
 
 db = SQLAlchemy(app)
+
+migrate = Migrate(app, db)
 
 
 class Vegetable(db.Model):
@@ -42,50 +54,55 @@ class LoginForm(FlaskForm):
     password = PasswordField('Password', validators=[DataRequired()])
 
 
-def db_setup():
+@app.cli.command("init_db")
+def init_db():
     """
-    Set up the database if needed.
+    Initialize the database.
 
     This function is responsible for creating the necessary tables if they don't exist.
     """
-    app.logger.debug("Setting up db...")
-    db.create_all()
-    app.logger.debug("Setting up db [Done]")
+    app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('DATABASE_URL')
+    with app.app_context():
+        db.create_all()
+        click.echo("Database Initialized")
 
 
-def set_database_uri():
-    if 'username' in session:
-        user = User.query.filter_by(name=session['username']).first()
-        if user:
-            user_db_uri = f'sqlite:///user_{user.id}_db.sqlite3'
-            app.config['SQLALCHEMY_DATABASE_URI'] = user_db_uri
+# def db_setup():
+#     """
+#     Set up the database if needed.
+
+#     This function is responsible for creating the necessary tables if they don't exist.
+#     """
+#     app.logger.debug("Setting up db...")
+#     db.create_all()
+#     app.logger.debug("Setting up db [Done]")
 
 
-def configure_db_uri(user_id):
-    """
-    Configure the database URI based on the user's ID.
+# def set_database_uri():
+#     if 'username' in session:
+#         user = User.query.filter_by(name=session['username']).first()
+#         if user:
+#             user_db_uri = f'sqlite:///user_{user.id}_db.sqlite3'
+#             app.config['SQLALCHEMY_DATABASE_URI'] = user_db_uri
 
-    Args:
-        user_id (int): The ID of the logged-in user.
 
-    Returns:
-        str: The configured database URI.
-    """
-    return f'sqlite:///user_{user_id}_db.sqlite3'
+# def configure_db_uri(user_id):
+#     """
+#     Configure the database URI based on the user's ID.
+
+#     Args:
+#         user_id (int): The ID of the logged-in user.
+
+#     Returns:
+#         str: The configured database URI.
+#     """
+#     return f'sqlite:///user_{user_id}_db.sqlite3'
 
 
 @app.before_request
 def before_request():
     if 'logged_in' in session:
-        user = User.query.filter_by(name=session['username']).first()
-        if user:
-            db_uri = configure_db_uri(user.id)
-            app.config['SQLALCHEMY_DATABASE_URI'] = db_uri
-
-
-@app.before_request
-def before_request():
-    set_database_uri()
+        app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('DATABASE_URL')
 
 
 def valid_login(username, password):

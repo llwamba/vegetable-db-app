@@ -110,6 +110,13 @@
         {% endfor %}
       </tbody>
     </table>
+    <!-- sum of total values -->
+    <table class="total-row">
+      <tr class="total-row">
+        <td><strong>Total:</strong></td>
+        <td class="left-padding"><strong>{{ total_sum }}</strong></td>
+      </tr>
+    </table>
 
     <a href="{{ url_for('index') }}">Back to Home</a>
 

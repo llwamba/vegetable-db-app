@@ -4,3 +4,8 @@ Flask_WTF==1.1.1
 python-dotenv==1.0.0
 Werkzeug==2.3.7
 WTForms==3.0.1
+psycopg2-binary==2.9.7
+Flask-Migrate===4.0.4
+flask_wtf==1.1.1
+pip install python-dotenv==1.0.0
+Werkzeug==2.3.7
