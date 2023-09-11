@@ -78,7 +78,7 @@ def before_request():
 
 def valid_login(username, password):
     user = User.query.filter_by(name=escape(username)).first()
-    if user and check_password_hash(escape(password), password):
+    if user and check_password_hash(user.password, password):
         return True
     return False
 

@@ -47,7 +47,7 @@
     messages %} {% for category, message in messages %}
     <div class="flash-messages">
       {% if category == 'error' %}
-      <li class="flash-message">{{ escape(message) }}</li>
+      <li class="flash-message">{{ message | e }}</li>
       {% endif %}
     </div>
     {% endfor %} {% endif %} {% endwith %}
@@ -91,21 +91,21 @@
       <tbody>
         {% for vegetable in vegetables %}
         <tr>
-          <td>{{ escape(vegetable.name) }}</td>
-          <td>{{ escape(vegetable.quantity) }}</td>
-          <td>{{ escape(vegetable.price) }}</td>
+          <td>{{ vegetable.name | e }}</td>
+          <td>{{ vegetable.quantity | e }}</td>
+          <td>{{ vegetable.price | e }}</td>
           <td>
             {% if vegetable.total_value is not none %}{{
             '%0.3f'|format(vegetable.total_value) }}{% endif %}
           </td>
           <td>
             <a href="{{ url_for('edit_vegetable', vegetable_id=vegetable.id) }}"
-              >{{ escape('Edit') }}</a
+              >{{ 'Edit' | e }}</a
             >
             <a
               href="{{ url_for('delete_vegetable', vegetable_id=vegetable.id) }}"
               class="delete-link"
-              >{{ escape('Delete') }}</a
+              >{{ 'Delete'| e }}</a
             >
           </td>
         </tr>
