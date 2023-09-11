@@ -93,8 +93,8 @@
           <td>{{ vegetable.quantity }}</td>
           <td>{{ vegetable.price }}</td>
           <td>
-            {% if vegetable.total_value is not none %}{{ vegetable.total_value
-            }}{% endif %}
+            {% if vegetable.total_value is not none %}{{
+            '%0.3f'|format(vegetable.total_value) }}{% endif %}
           </td>
           <td>
             <a href="{{ url_for('edit_vegetable', vegetable_id=vegetable.id) }}"
@@ -114,7 +114,9 @@
     <table class="total-row">
       <tr class="total-row">
         <td><strong>Total:</strong></td>
-        <td class="left-padding"><strong>{{ total_sum }}</strong></td>
+        <td class="left-padding">
+          <strong>{{ '%0.3f'|format(total_sum) }}</strong>
+        </td>
       </tr>
     </table>
 
