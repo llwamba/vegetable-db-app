@@ -1,6 +1,6 @@
 # Vegetable Database App
 
-[CLIK HERE TO VIEW DEMO]([http://lionelwamba.pythonanywhere.com/](https://vegetable-db-app-by-lionel-lwamba.onrender.com)) or click on this link: https://vegetable-db-app-by-lionel-lwamba.onrender.com
+[CLIK HERE TO VIEW DEMO]([https://vegetable-db-app-by-lionel-lwamba.onrender.com/])) or click on this link: https://vegetable-db-app-by-lionel-lwamba.onrender.com
 
  # Overview
 The Vegetable Database App is a simple yet powerful web application for managing your vegetable inventory. Developed by Lionel Lwamba, this user-friendly tool allows you to effortlessly keep track of your vegetables, their quantities, and prices.
