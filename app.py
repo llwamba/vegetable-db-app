@@ -8,6 +8,7 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from dotenv import load_dotenv
 from markupsafe import escape
+from waitress import serve
 
 
 load_dotenv()
@@ -258,4 +259,4 @@ def logout():
 
 
 if __name__ == '__main__':
-    app.run()
+    serve(app, host='0.0.0.0', port=5000)

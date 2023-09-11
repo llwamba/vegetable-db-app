@@ -16,21 +16,21 @@
         type="text"
         name="name"
         placeholder="Vegetable Name"
-        value="{{ vegetable[2] }}"
+        value="{{  escape(vegetable[2]) }}"
         required
       />
       <input
         type="number"
         name="quantity"
         placeholder="Quantity"
-        value="{{ vegetable[1] }}"
+        value="{{  escape(vegetable[1]) }}"
         required
       />
       <input
         type="number"
         name="price"
         placeholder="Price ($)"
-        value="{{ vegetable[3] }}"
+        value="{{  escape(vegetable[3]) }}"
         step="0.01"
         required
       />
